@@ -1,0 +1,714 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+
+<head>
+    <meta charset="utf-8">
+    <title>Fruitables - Vegetable Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        .product-card {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .product-card img {
+            border-radius: 15px 15px 0 0;
+        }
+        .cart-container {
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-width: 1200px;
+            display: none;
+            z-index: 1000;
+        }
+        .cart-container.show {
+            display: block;
+        }
+        .back-to-top {
+            position: fixed;
+            right: 90px; /* Khoảng cách từ nút đến phía trái của màn hình */
+            z-index: 1000; /* Đảm bảo nút ở phía trên các thành phần khác */
+            display: none; /* Ẩn nút mặc định, chỉ hiện khi kéo trang */
+        }
+        .fixed-button {
+            position: fixed;
+            bottom: 20px; /* Khoảng cách từ nút đến phía dưới của màn hình */
+            left: 20px; /* Khoảng cách từ nút đến phía trái của màn hình */
+            z-index: 1000; /* Đảm bảo nút ở phía trên các thành phần khác */
+        }
+    </style>
+</head>
+
+
+<body>
+
+<!-- Spinner Start -->
+<div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+    <div class="spinner-grow text-primary" role="status"></div>
+</div>
+<!-- Spinner End -->
+
+<!-- Navbar start -->
+<div class="container-fluid fixed-top">
+    <div class="container topbar bg-primary d-none d-lg-block">
+        <div class="d-flex justify-content-between">
+            <div class="top-info ps-2">
+                <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">123 Street, New York</a></small>
+                <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">Email@Example.com</a></small>
+            </div>
+            <div class="top-link pe-2">
+                <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
+                <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
+                <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container px-0">
+        <nav class="navbar navbar-light bg-white navbar-expand-xl">
+            <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
+            <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars text-primary"></span>
+            </button>
+            <div class="collapse navbar-collapse"
+                 id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page"
+                           href="/">Home</a>
+                    </li>
+
+                    <!--                        <li class="nav-item"><a class="nav-link" href="/products">Danh sách SP</a></li>-->
+                    <!--                        <li class="nav-item" sec:authorize="hasAuthority('ADMIN')"><a class="nav-link" href="/products/add">Thêm SP</a></li>-->
+                    <!--                        <li class="nav-item"><a class="nav-link" href="/categories">Danh mục</a></li>-->
+                    <!--                        <li class="nav-item" sec:authorize="hasAuthority('ADMIN')"><a class="nav-link" href="/categories/add">Thêm danh mục</a></li>-->
+                    <!--                        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item"><a class="nav-link" href="/cart/listOrder">Order Detail</a></li>-->
+                    <!--                        <li sec:authorize="hasAuthority('USER')" class="nav-item"><a class="nav-link" href="/cart/listOrder">My Order</a></li>-->
+                    <!--                      -->
+                    <!--                        <li class="nav-item"><a class="nav-link" href="/cart">Giỏ hàng</a></li>-->
+                    <li class="nav-item"><a class="nav-link" href="/products">Product</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/categories">Category</a></li>
+                    <li sec:authorize="hasAuthority('ADMIN')" class="nav-item"><a class="nav-link" href="/cart/listOrder">Order Detail</a></li>
+                    <li sec:authorize="hasAuthority('USER')" class="nav-item"><a class="nav-link" href="/cart/listOrder">My Order</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cart">Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+
+                </ul>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                    <li class="nav-item d-flex align-items-center" sec:authorize="isAuthenticated()">
+                            <span class="navbar-text">
+                                <a class="collapse-item" th:href="@{/profile}" >
+                                    Xin chào, <span sec:authentication="name" style="margin-right: 20px;"></span>
+                                </a>
+                            </span>
+                    </li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <form th:action="@{/logout}" method="post">
+                            <button class="btn btn-outline-danger"
+                                    type="submit">Logout</button>
+                        </form>
+                    </li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                        <a class="btn btn-outline-success" href="/login">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+<!-- Navbar End -->
+
+
+<!-- Modal Search Start -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex align-items-center">
+                <div class="input-group w-75 mx-auto d-flex">
+                    <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                    <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Search End -->
+
+
+<!-- Hero Start -->
+<div class="container-fluid py-5 mb-5 hero-header">
+    <div class="container py-5">
+        <div class="row g-5 align-items-center">
+            <div class="col-md-12 col-lg-7">
+                <h4 class="mb-3 text-secondary">100% Organic Foods</h4>
+                <h1 class="mb-5 display-3 text-primary">Organic Veggies & Fruits Foods</h1>
+                <form th:action="@{/products/search}" method="get" class="position-relative mx-auto" style="width: calc(75% - 20px);">
+                    <input class="form-control border-2 border-secondary w-100 py-3 px-4 rounded-pill" type="search" placeholder="Search" name="keyword" style="padding-right: 150px;">
+                    <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white" style="top: 0; right: -20px; height: 100%;">Submit Now</button>
+                </form>
+            </div>
+
+            <div class="col-md-12 col-lg-5">
+                <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
+                    <div class="carousel-inner" role="listbox">
+                        <div class="carousel-item active rounded">
+                            <img src="img/hero-img-1.png" class="img-fluid w-100 h-100 bg-secondary rounded" alt="First slide">
+                            <a href="#" class="btn px-4 py-2 text-white rounded">Fruites</a>
+                        </div>
+                        <div class="carousel-item rounded">
+                            <img src="img/hero-img-2.jpg" class="img-fluid w-100 h-100 rounded" alt="Second slide">
+                            <a href="#" class="btn px-4 py-2 text-white rounded">Vesitables</a>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselId" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Hero End -->
+
+
+<button type="button" class="fixed-button btn btn-primary mt-3 mb-3" onclick="toggleCart()">Toggle Cart</button>
+
+<!--&lt;!&ndash; Cart content container &ndash;&gt;-->
+<!--<div class="cart-container">-->
+<!--    <h2>Your Cart</h2>-->
+<!--    <table class="table">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th scope="col">ID</th>-->
+<!--            <th scope="col">Name</th>-->
+<!--            <th scope="col">Quantity</th>-->
+<!--            <th scope="col">Price</th>-->
+<!--            <th scope="col">Total</th>-->
+<!--            <th scope="col">Calories</th>-->
+<!--            <th scope="col">Protein</th>-->
+<!--            <th scope="col">Carbs</th>-->
+<!--            <th scope="col">Fat</th>-->
+<!--            <th scope="col">Alcohol</th>-->
+<!--            <th scope="col">Action</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="item : ${cart.cartItems}">-->
+<!--            <td th:text="${item.productId}"></td>-->
+<!--            <td th:text="${item.productName}"></td>-->
+<!--            <td>-->
+<!--                <label>-->
+<!--                    <input type="number" min="1"-->
+<!--                           th:value="${item.quantity}"-->
+<!--                           th:attr="data-id=${item.productId},data-price=${item.price}"-->
+<!--                           class="form-control quantity">-->
+<!--                </label>-->
+<!--            </td>-->
+<!--            <td th:text="${item.price}"></td>-->
+<!--            <td th:text="${item.price * item.quantity}" class="item-total"></td>-->
+<!--            <td th:text="${item.caloriesPerGram * item.quantity * 10}"></td>-->
+<!--            <td th:text="${item.protein * item.quantity * 10}"></td>-->
+<!--            <td th:text="${item.carbs * item.quantity * 10}"></td>-->
+<!--            <td th:text="${item.fat * item.quantity * 10}"></td>-->
+<!--            <td th:text="${item.alcohol * item.quantity * 10}"></td>-->
+<!--            <td>-->
+<!--                <a class="btn btn-danger"-->
+<!--                   th:href="@{/cart/removeFromCart/{id}(id=${item.productId})}">-->
+<!--                    Remove-->
+<!--                </a>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--    <div>Total: <span id="totalPrice" th:text="${totalPrice}"></span></div>-->
+<!--</div>-->
+<!-- Cart content container -->
+<!-- Cart content container -->
+<div class="cart-container">
+    <h2>Your Cart</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Total</th>
+            <th scope="col">Calories</th>
+            <th scope="col">Protein</th>
+            <th scope="col">Carbs</th>
+            <th scope="col">Fat</th>
+            <th scope="col">Alcohol</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${cart.cartItems}">
+            <td th:text="${item.productId}"></td>
+            <td th:text="${item.productName}"></td>
+            <td>
+                <label>
+                    <input type="number" min="1"
+                           th:value="${item.quantity}"
+                           th:attr="data-id=${item.productId},data-price=${item.price}"
+                           class="form-control quantity" readonly>
+                </label>
+            </td>
+            <td th:text="${item.price}"></td>
+            <td th:text="${item.price * item.quantity}" class="item-total"></td>
+            <td th:text="${item.caloriesPerGram * item.quantity * 10}"></td>
+            <td th:text="${item.protein * item.quantity * 10}"></td>
+            <td th:text="${item.carbs * item.quantity * 10}"></td>
+            <td th:text="${item.fat * item.quantity * 10}"></td>
+            <td th:text="${item.alcohol * item.quantity * 10}"></td>
+            <td>
+                <a class="btn btn-danger"
+                   th:href="@{/cart/removeFromCart/{id}(id=${item.productId})}">
+                    Remove
+                </a>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="5">Total</th>
+            <th id="totalCalories"></th>
+            <th id="totalProtein"></th>
+            <th id="totalCarbs"></th>
+            <th id="totalFat"></th>
+            <th id="totalAlcohol"></th>
+            <th></th>
+        </tr>
+        </tfoot>
+    </table>
+
+    <div>Total Price: <span id="totalPrice" th:text="${totalPrice}"></span></div>
+    <div class="col-md-12 text-center">
+        <a class="btn btn-success"
+           th:href="@{/cart}">Go to Cart</a>
+        <a class="btn btn-danger"
+           th:href="@{/cart/clearCart}">Clear Cart</a>
+    </div>
+</div>
+
+
+<!-- Fruits Shop Start-->
+<div class="tab-class text-center">
+    <h1>Our Organic Products</h1>
+    <div class="container">
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-outline-success m-3" sec:authorize="hasAuthority('ADMIN')" href="/products/add">Add Product</a>
+            <form class="d-flex" enctype="multipart/form-data" sec:authorize="hasAuthority('ADMIN')" th:action="@{/products/upload-excel}" method="POST">
+                <input class="form-control me-2" type="file" name="file" accept=".xls,.xlsx" required>
+                <button class="btn btn-outline-success" type="submit">Upload</button>
+            </form>
+        </div>
+
+        <!-- Product List -->
+        <div class="row">
+            <div class="col-md-6 col-lg-4 col-xl-3 mb-4" th:each="product, iterStat : ${products}">
+                <div class="rounded position-relative fruite-item">
+                    <div class="fruite-img">
+                        <img th:src="@{${product.imageUrl}}" class="img-fluid w-100 rounded-top" alt="Product Image">
+                    </div>
+                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;" th:text="${product.category.name}">Fruits</div>
+                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                        <h4 th:text="${product.title}">Grapes</h4>
+                        <p>Rau củ và trái cây là nguồn dinh dưỡng tự nhiên, cung cấp nhiều vitamin, khoáng chất và chất xơ thiết yếu cho sức khỏe.</p>
+
+                        <div class="d-flex justify-content-center flex-lg-wrap text-center mb-3">
+                            <p class="text-dark fs-5 fw-bold mb-0"  th:text="${product.price} + ' / kg'"></p>
+
+
+                        </div>
+
+                        <div sec:authorize="hasAuthority('ADMIN')">
+                            <a class="btn btn-primary mx-1" th:href="@{/products/edit/{id}(id=${product.id})}">Edit</a>
+                            <a class="btn btn-danger mx-1" th:href="@{/products/delete/{id}(id=${product.id})}" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+
+                        </div>
+                        <form th:action="@{/products/add-to-cart}" method="post" class="d-inline mx-1">
+                            <input type="hidden" name="id" th:value="${product.id}">
+                            <input type="hidden" name="name" th:value="${product.title}">
+                            <input type="hidden" name="price" th:value="${product.price}">
+                            <button type="submit" sec:authorize="hasAuthority('USER')" class="btn btn-success mt-2" onclick="return confirm('Are you sure you want to add product to cart?')">Add to cart</button>
+                            <a th:href="@{/products/details/{id}(id=${product.id})}" class="btn btn-success mt-2">View Details</a>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <!--        <nav aria-label="Page navigation example">-->
+        <!--            <ul class="pagination justify-content-center pagination-sm">-->
+        <!--                <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">-->
+        <!--                    <a class="page-link" th:href="@{/products(pageNo=${currentPage - 1})}" aria-label="Previous">-->
+        <!--                        <span aria-hidden="true">&laquo;</span>-->
+        <!--                    </a>-->
+        <!--                </li>-->
+        <!--                <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage == i} ? 'active'">-->
+        <!--                    <a class="page-link" th:href="@{/products(pageNo=${i})}" th:text="${i}"></a>-->
+        <!--                </li>-->
+        <!--                <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">-->
+        <!--                    <a class="page-link" th:href="@{/products(pageNo=${currentPage + 1})}" aria-label="Next">-->
+        <!--                        <span aria-hidden="true">&raquo;</span>-->
+        <!--                    </a>-->
+        <!--                </li>-->
+        <!--            </ul>-->
+        <!--        </nav>-->
+    </div>
+</div>
+</div>
+</div>
+<!-- Fruits Shop End-->
+
+    <!-- Featurs Section Start -->
+    <div class="container-fluid featurs py-5">
+        <div class="container py-5">
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="featurs-item text-center rounded bg-light p-4">
+                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
+                            <i class="fas fa-car-side fa-3x text-white"></i>
+                        </div>
+                        <div class="featurs-content text-center">
+                            <h5>Free Shipping</h5>
+                            <p class="mb-0">Free on order over $300</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="featurs-item text-center rounded bg-light p-4">
+                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
+                            <i class="fas fa-user-shield fa-3x text-white"></i>
+                        </div>
+                        <div class="featurs-content text-center">
+                            <h5>Security Payment</h5>
+                            <p class="mb-0">100% security payment</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="featurs-item text-center rounded bg-light p-4">
+                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
+                            <i class="fas fa-exchange-alt fa-3x text-white"></i>
+                        </div>
+                        <div class="featurs-content text-center">
+                            <h5>30 Day Return</h5>
+                            <p class="mb-0">30 day money guarantee</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="featurs-item text-center rounded bg-light p-4">
+                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
+                            <i class="fa fa-phone-alt fa-3x text-white"></i>
+                        </div>
+                        <div class="featurs-content text-center">
+                            <h5>24/7 Support</h5>
+                            <p class="mb-0">Support every time fast</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Featurs Section End -->
+
+    <!-- Banner Section Start-->
+    <div class="container-fluid banner bg-secondary my-5">
+        <div class="container py-5">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-6">
+                    <div class="py-4">
+                        <h1 class="display-3 text-white">Fresh Exotic Fruits</h1>
+                        <p class="fw-normal display-3 text-dark mb-4">in Our Store</p>
+                        <p class="mb-4 text-dark">The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic words etc.</p>
+                        <a href="#" class="banner-btn btn border-2 border-white rounded-pill text-dark py-3 px-5">BUY</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="position-relative">
+                        <img src="img/baner-1.png" class="img-fluid w-100 rounded" alt="">
+                        <div class="d-flex align-items-center justify-content-center bg-white rounded-circle position-absolute" style="width: 140px; height: 140px; top: 0; left: 0;">
+                            <h1 style="font-size: 100px;">1</h1>
+                            <div class="d-flex flex-column">
+                                <span class="h2 mb-0">50$</span>
+                                <span class="h4 text-muted mb-0">kg</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Banner Section End -->
+
+    <!-- Fact Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="bg-light p-5 rounded">
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="counter bg-white rounded p-5">
+                            <i class="fa fa-users text-secondary"></i>
+                            <h4>satisfied customers</h4>
+                            <h1>1963</h1>
+                        </div>
+                    </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="counter bg-white rounded p-5">
+                        <i class="fa fa-users text-secondary"></i>
+                        <h4>quality of service</h4>
+                        <h1>99%</h1>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="counter bg-white rounded p-5">
+                        <i class="fa fa-users text-secondary"></i>
+                        <h4>quality certificates</h4>
+                        <h1>33</h1>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="counter bg-white rounded p-5">
+                        <i class="fa fa-users text-secondary"></i>
+                        <h4>Available Products</h4>
+                        <h1>789</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fact Start -->
+
+
+<!-- Tastimonial Start -->
+<div class="container-fluid testimonial py-5">
+    <div class="container py-5">
+        <div class="testimonial-header text-center">
+            <h4 class="text-primary">Our Testimonial</h4>
+            <h1 class="display-5 mb-5 text-dark">Our Client Saying!</h1>
+        </div>
+        <div class="owl-carousel testimonial-carousel">
+            <div class="testimonial-item img-border-radius bg-light rounded p-4">
+                <div class="position-relative">
+                    <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
+                    <div class="mb-4 pb-4 border-bottom border-secondary">
+                        <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the industry's standard dummy text ever since the 1500s,
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center flex-nowrap">
+                        <div class="bg-secondary rounded">
+                            <img src="img/testimonial-1.jpg" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
+                        </div>
+                        <div class="ms-4 d-block">
+                            <h4 class="text-dark">Client Name</h4>
+                            <p class="m-0 pb-3">Profession</p>
+                            <div class="d-flex pe-5">
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-item img-border-radius bg-light rounded p-4">
+                <div class="position-relative">
+                    <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
+                    <div class="mb-4 pb-4 border-bottom border-secondary">
+                        <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the industry's standard dummy text ever since the 1500s,
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center flex-nowrap">
+                        <div class="bg-secondary rounded">
+                            <img src="img/testimonial-1.jpg" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
+                        </div>
+                        <div class="ms-4 d-block">
+                            <h4 class="text-dark">Client Name</h4>
+                            <p class="m-0 pb-3">Profession</p>
+                            <div class="d-flex pe-5">
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-item img-border-radius bg-light rounded p-4">
+                <div class="position-relative">
+                    <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
+                    <div class="mb-4 pb-4 border-bottom border-secondary">
+                        <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the industry's standard dummy text ever since the 1500s,
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center flex-nowrap">
+                        <div class="bg-secondary rounded">
+                            <img src="img/testimonial-1.jpg" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
+                        </div>
+                        <div class="ms-4 d-block">
+                            <h4 class="text-dark">Client Name</h4>
+                            <p class="m-0 pb-3">Profession</p>
+                            <div class="d-flex pe-5">
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Tastimonial End -->
+
+
+<!-- Footer Start -->
+<th:block th:replace="~{layout::footer}"></th:block>
+
+<!-- Footer End -->
+
+<!-- Copyright Start -->
+<div class="container-fluid copyright bg-dark py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                <span class="text-light"><a href="#"><i class="fas fa-copyright text-light me-2"></i>Your Site Name</a>, All right reserved.</span>
+            </div>
+            <div class="col-md-6 my-auto text-center text-md-end text-white">
+                <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+                Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Copyright End -->
+
+
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+<script>
+    function toggleCart() {
+        const cartContainer = document.querySelector('.cart-container');
+        cartContainer.classList.toggle('show');
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        function updateTotals() {
+            let totalCalories = 0;
+            let totalProtein = 0;
+            let totalCarbs = 0;
+            let totalFat = 0;
+            let totalAlcohol = 0;
+
+            document.querySelectorAll('tbody tr').forEach(row => {
+                const quantityInput = row.querySelector('input.quantity');
+                if (!quantityInput) return; // Skip if quantity input is not found
+
+                const quantity = parseFloat(quantityInput.value) || 0;
+                const caloriesElement = row.querySelector('td:nth-child(6)');
+                const proteinElement = row.querySelector('td:nth-child(7)');
+                const carbsElement = row.querySelector('td:nth-child(8)');
+                const fatElement = row.querySelector('td:nth-child(9)');
+                const alcoholElement = row.querySelector('td:nth-child(10)');
+
+                const calories = caloriesElement ? parseFloat(caloriesElement.textContent) : 0;
+                const protein = proteinElement ? parseFloat(proteinElement.textContent) : 0;
+                const carbs = carbsElement ? parseFloat(carbsElement.textContent) : 0;
+                const fat = fatElement ? parseFloat(fatElement.textContent) : 0;
+                const alcohol = alcoholElement ? parseFloat(alcoholElement.textContent) : 0;
+
+                totalCalories += calories;
+                totalProtein += protein;
+                totalCarbs += carbs;
+                totalFat += fat;
+                totalAlcohol += alcohol;
+            });
+
+            document.getElementById('totalCalories').textContent = totalCalories;
+            document.getElementById('totalProtein').textContent = totalProtein;
+            document.getElementById('totalCarbs').textContent = totalCarbs;
+            document.getElementById('totalFat').textContent = totalFat;
+            document.getElementById('totalAlcohol').textContent = totalAlcohol;
+        }
+
+        document.querySelectorAll('input.quantity').forEach(input => {
+            input.addEventListener('input', updateTotals);
+        });
+
+        updateTotals();
+    });
+</script>
+
+
+<!-- JavaScript Libraries -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/lightbox/js/lightbox.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
+
+</body>
+
+</html>
+
