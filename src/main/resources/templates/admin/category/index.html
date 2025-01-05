@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
 
@@ -12,7 +12,7 @@
     <!-- Favicons -->
     <link href="/admin/img/avt.png" rel="icon">
 
-    <title>Category - Dashboard</title>
+    <title>Danh Mục - Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -76,7 +76,7 @@
                 <!-- Page Heading -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h1 class="h3 text-gray-800">Trang Quản Lý Loại Sản Phẩm</h1>
-                    <a href="/admin/product/productAdd" class="btn btn-primary">
+                    <a href="/admin/category/add" class="btn btn-primary">
                         <i class="fas fa-plus"></i> Thêm loại sản phẩm
                     </a>
                 </div>
@@ -106,9 +106,20 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Tên loại sản phẩm</th>
+                                    <th>Hành Động</th>
                                 </tr>
+
                                 </thead>
                                 <tbody>
+                                <tr th:each="category : ${categories}">
+                                    <td th:text="${category.getId()}"></td>
+                                    <td th:text="${category.getName()}"></td>
+                                    <td>
+                                        <a class="btn btn-primary" th:href="@{/admin/category/edit/{id}(id=${category.getId()})}">Edit</a>
+                                        <a class="btn btn-danger" th:href="@{/admin/category/delete/{id}(id=${category.getId()})}" onclick="return confirm('bạn có chắc muốn xóa danh mục này?')">Delete</a>
+                                    </td>
+                                </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>

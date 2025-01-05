@@ -12,7 +12,7 @@
     <!-- Favicons -->
     <link href="/admin/img/avt.png" rel="icon">
 
-    <title>User - Dashboard</title>
+    <title>CHỉnh Sửa Danh Mục - Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -74,7 +74,7 @@
             <div class="container-fluid">
                 <!-- Page Heading -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h1 class="h3 text-gray-800">Trang Quản Lý Tài Khoản</h1>
+                    <h1 class="h3 text-gray-800">Trang Thêm Danh Mục</h1>
                 </div>
 
                 <!-- Hiển thị thông báo thành công hoặc lỗi -->
@@ -90,64 +90,25 @@
                     </div>
                 </div>
 
-                <!-- Products Table -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Bảng Tài Khoản</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered">
-                                <thead style="background-color: #84cc73; color: #fff">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tên người dùng</th>
-                                    <th>Địa chỉ</th>
-                                    <th>SĐT</th>
-                                    <th>Email</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="user : ${users}" th:data-id="${user.id}" class="clickable-row">
-                                    <td th:text="${user.id}"></td>
-                                    <td th:text="${user.username}"></td>
-                                    <td th:text="${user.address}"></td>
-                                    <td th:text="${user.phone}"></td>
-                                    <td th:text="${user.email}"></td>
-                                </tr>
-                                <tr th:if="${#lists.isEmpty(users)}">
-                                    <td colspan="6" class="text-center">Không có dữ liệu người dùng.</td>
-                                </tr>
-                                </tbody>
-                            </table>
-
-                            <style>
-                                .table-striped tbody tr {
-                                    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-                                }
-
-                                .table-striped tbody tr:hover {
-                                    background-color: #f2f2f2; /* Màu nền khi hover */
-                                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Bóng khi hover */
-                                    transform: scale(1.02); /* Phóng to khi hover */
-                                }
-
-                                .table-striped tbody tr {
-                                    cursor: pointer; /* Thay đổi con trỏ thành bàn tay */
-                                }
-                            </style>
-                            <script>
-                                document.querySelectorAll('.clickable-row').forEach(row => {
-                                    row.addEventListener('click', function() {
-                                        const productId = this.dataset.id;
-                                        window.location.href = '/admin/user/' + productId;
-                                    });
-                                });
-                            </script>
+                <div class="container card-body card">
+                    <h1>Chỉnh sửa danh mục</h1>
+                    <form th:action="@{/admin/category/edit}" th:object="${category}" method="post">
+                        <input type="hidden" th:field="*{id}">
+                        <div class="col-6 mb-3">
+                            <label class="form-label" for="title">Tên:</label>
+                            <input class="form-control" type="text" th:field="*{name}"
+                                   id="title" required autofocus>
+                            <span class="text-danger" th:if="${#fields.hasErrors('name')}"
+                                  th:errors="*{name}"></span>
                         </div>
-                    </div>
 
+                        <input type="submit" class="btn btn-primary" value="Lưu">
+                    </form>
+                    <br>
+                    <a th:href="@{/admin/category}" class="btn btn-danger">Quay Lại</a>
                 </div>
+
+
             </div>
         </div><!-- End of Main Content -->
     </div><!-- End of Content Wrapper -->

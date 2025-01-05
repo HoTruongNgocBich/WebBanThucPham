@@ -1,6 +1,7 @@
 package Nhom_06.HuaKieuLam.services;
 
 import Nhom_06.HuaKieuLam.Role;
+import Nhom_06.HuaKieuLam.entities.Product;
 import Nhom_06.HuaKieuLam.entities.User;
 import Nhom_06.HuaKieuLam.entities.VerificationToken;
 import Nhom_06.HuaKieuLam.repositories.IRoleRepository;
@@ -206,5 +207,9 @@ public class UserService implements UserDetailsService {
     //danh sách người dùng
     public List<User> getAllUsers() {
         return userRepository.findAll(); // Sử dụng JpaRepository để lấy tất cả người dùng
+    }
+
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
     }
 }
