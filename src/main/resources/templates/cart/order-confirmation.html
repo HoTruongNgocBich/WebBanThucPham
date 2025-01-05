@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initialscale=1.0">
+    <title>List Order</title>
+    <th:block th:replace="~{layout::link-css}"></th:block>
+    <th:block th:replace="~{layout::custom-css}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{layout::header}"></th:block>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 text-center">
+                <h1>Order Confirmation</h1>
+                <div th:each="order : ${invoice}">
+                    <a th:href="@{/cart/order/{id}(id=${invoice.id})}" class="btn btn-info">View Details</a>
+                </div>
+                <a class="btn btn-primary" href="/products">Go to list product</a>
+            </div>
+        </div>
+    </div>
+<th:block th:replace="~{layout::footer}"></th:block>
+
+</body>
+</html>
