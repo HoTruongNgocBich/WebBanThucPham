@@ -75,7 +75,7 @@
                     <!-- Page Heading -->
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h1 class="h3 text-gray-800">Trang Quản Lý Sản Phẩm</h1>
-                        <a href="/Admin/AddProduct" class="btn btn-primary">
+                        <a href="/admin/product/add" class="btn btn-primary">
                             <i class="fas fa-plus"></i> Thêm sản phẩm
                         </a>
                     </div>
@@ -105,20 +105,61 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Tên sản phẩm</th>
+                                        <th>Hình ảnh</th>
                                         <th>Loại sản phẩm</th>
                                         <th>Giá</th>
+                                        <th>Calories Per Gram</th>
+                                        <th>Protein</th>
+                                        <th>Carbs</th>
+                                        <th>Fat</th>
+                                        <th>Alcohol</th>
                                         <th>Hàng tồn</th>
-                                        <th>Chức Năng</th>
+                                        <th>Chức năng</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    <tr th:each="product : ${products}" th:data-id="${product.id}" class="clickable-row">
+                                        <td th:text="${product.id}"></td>
+                                        <td th:text="${product.title}"></td>
+                                        <td>
+                                            <img th:src="${product.imageUrl}" alt="Hình ảnh sản phẩm" style="width: 100px; height: auto;">
+                                        </td>
+                                        <td th:text="${product.category.name}"></td> <!-- Hiển thị tên category -->
+                                        <td th:text="${product.price}"></td>
+                                        <td th:text="${product.caloriesPerGram}"></td>
+                                        <td th:text="${product.protein}"></td>
+                                        <td th:text="${product.carbs}"></td>
+                                        <td th:text="${product.fat}"></td>
+                                        <td th:text="${product.alcohol}"></td>
+                                        <td th:text="${product.quantity}"></td>
+                                        <td>
+                                            <a th:href="@{/admin/product/edit/{id}(id=${product.id})}" class="btn btn-primary btn-sm">Sửa</a>
+                                            <a th:href="@{/admin/product/delete/{id}(id=${product.id})}" class="btn btn-danger btn-sm"  onclick="return confirm('bạn có chắc muốn xóa sản phẩm này?')">Xóa</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
                                 </table>
 
+                                <style>
+                                    .table-striped tbody tr {
+                                        transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+                                    }
+
+                                    .table-striped tbody tr:hover {
+                                        background-color: #f2f2f2; /* Màu nền khi hover */
+                                        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Bóng khi hover */
+                                        transform: scale(1.02); /* Phóng to khi hover */
+                                    }
+
+                                    .table-striped tbody tr {
+                                        cursor: pointer; /* Thay đổi con trỏ thành bàn tay */
+                                    }
+                                </style>
                                 <script>
                                     document.querySelectorAll('.clickable-row').forEach(row => {
                                         row.addEventListener('click', function() {
                                             const productId = this.dataset.id;
-                                            window.location.href = '/Admin/ProductDetail/' + productId;
+                                            window.location.href = '/admin/product/' + productId;
                                         });
                                     });
                                 </script>
