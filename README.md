@@ -1,4 +1,4 @@
-# Nguyễn Đắc Thắng
+# Nguyễn Bình Minh
 ### 🔧 Công nghệ và công cụ sử dụng
 - **Ngôn ngữ:** Java
 - **Framework:** Spring Boot
@@ -6,4 +6,4 @@
 - **Công cụ:** Git, Jira.
 
 ### 📫 Liên hệ
-- **Email:** [nguyendac16060123@gmail.com](mailto:nguyendac16060123@gmail.com)  
+- **Email:** [tranhlinhjessica@gmail.com](mailto:tranhlinhjessica@gmail.com)  
