@@ -1,4 +1,4 @@
-# Hồ Trương Ngọc Bích
+# Nguyễn Đắc Thắng
 ### 🔧 Công nghệ và công cụ sử dụng
 - **Ngôn ngữ:** Java
 - **Framework:** Spring Boot
@@ -6,5 +6,4 @@
 - **Công cụ:** Git, Jira.
 
 ### 📫 Liên hệ
-- **Email:** [ngocbichho564@gmail.com](mailto:ngocbichho564@gmail.com)  
-- **GitHub:** [github.com/HoTruongNgocBich](https://github.com/HoTruongNgocBich) 
+- **Email:** [nguyendac16060123@gmail.com](mailto:nguyendac16060123@gmail.com)  
